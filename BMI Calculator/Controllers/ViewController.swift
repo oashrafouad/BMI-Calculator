@@ -12,21 +12,39 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var heightLabel: UILabel!
     @IBOutlet weak var weightLabel: UILabel!
+    @IBOutlet weak var heightSlider: UISlider!
+    @IBOutlet weak var weightSlider: UISlider!
+    
+    var heightInCentimetres = 0
+    var heightInMetres: Float = 0.0
+    var weight = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        heightInCentimetres = Int(heightSlider.value)
+        heightInMetres = Float(heightInCentimetres) / 100
+        weight = Int(weightSlider.value)
     }
-
+    
     @IBAction func heightSliderChanged(_ sender: UISlider) {
-        // Round height slider value to two decimal places
-        let height = round(sender.value * 100) / 100
-        heightLabel.text = "\(String(height))m"
+        
+        // Cast weight slider value to an Int so the numbers after the decimal point are dropped and the value is converted to a whole number
+        heightInCentimetres = Int(sender.value)
+        heightLabel.text = "\(String(heightInCentimetres)) cm"
     }
     
     @IBAction func weightSliderChanged(_ sender: UISlider) {
-        // Cast weight slider value to an Int so the numbers after the decimal point are dropped and the value is converted to a whole number whole number
-        let weight = Int(sender.value)
-        weightLabel.text = "\(String(weight))Kg"
+        
+        // Cast weight slider value to an Int so the numbers after the decimal point are dropped and the value is converted to a whole number
+        weight = Int(sender.value)
+        weightLabel.text = "\(String(weight)) kg"
+    }
+    
+    @IBAction func calculatePressed(_ sender: UIButton) {
+        
+        heightInMetres = Float(heightInCentimetres) / 100
+        let bmi = Float(weight) / pow(heightInMetres, 2)
+        print(bmi)
     }
 }
