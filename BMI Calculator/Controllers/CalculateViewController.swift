@@ -2,16 +2,16 @@ import UIKit
 
 class CalculateViewController: UIViewController {
     
-    @IBOutlet weak var heightLabel: UILabel!
-    @IBOutlet weak var weightLabel: UILabel!
-    @IBOutlet weak var heightSlider: UISlider!
-    @IBOutlet weak var weightSlider: UISlider!
-    
+    var calculatorBrain = CalculatorBrain()
+
     var heightInCentimetres = 0
     var heightInMetres: Float = 0.0
     var weight = 0
     
-    var calculatorBrain = CalculatorBrain()
+    @IBOutlet weak var heightLabel: UILabel!
+    @IBOutlet weak var weightLabel: UILabel!
+    @IBOutlet weak var heightSlider: UISlider!
+    @IBOutlet weak var weightSlider: UISlider!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +19,7 @@ class CalculateViewController: UIViewController {
         heightInCentimetres = Int(heightSlider.value)
         heightInMetres = Float(heightInCentimetres) / 100
         weight = Int(weightSlider.value)
+        
     }
     
     @IBAction func heightSliderChanged(_ sender: UISlider) {
@@ -45,11 +46,12 @@ class CalculateViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // What is sender?
         if segue.identifier == "goToResult"
         {
             let destinationVC = segue.destination as! ResultViewController
             destinationVC.bmiValue = calculatorBrain.getBmiValue()
+            destinationVC.advice = calculatorBrain.getAdvice()
+            destinationVC.color = calculatorBrain.getColor()
         }
     }
 }
